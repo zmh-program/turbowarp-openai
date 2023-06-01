@@ -31,20 +31,20 @@ new Extension({
       disableMonitor: true
     },
     {
-      opcode: 'donate',
-      blockType: 'command',
-      text: 'donate',
-      bind: () => window.open('https://afdian.net/@zmh-program')
-    },
-    {
       opcode: 'set',
       blockType: 'command',
-      text: 'customize the apikey [apikey:string]',
+      text: 'customize the apikey [apikey:string]  (risky)',
       default: { apikey: 'sk-' },
       bind: ({ apikey: key }) => {
         apikey = key
         return 'The openai apikey has been set. Note that customizing the apikey is risky!'
       }
+    },
+    {
+      opcode: 'donate',
+      blockType: 'command',
+      text: 'donate',
+      bind: () => window.open('https://afdian.net/@zmh-program')
     }
   ]
 }).register()

@@ -1,7 +1,7 @@
 {
-  "name": "turbowarp-ts-plugin",
+  "name": "turbowarp-openai",
   "version": "1.1.0",
-  "description": "📦 TurboWarp development-env extension plugin",
+  "description": "🔥 TurboWarp ChatGPT extension",
   "main": "index.ts",
   "scripts": {
     "build": "webpack",
