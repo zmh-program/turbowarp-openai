@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-CORS(app, origins=["http://localhost:5173", "https://fystart.deeptrain.net", "https://40code.com", "https://www.40code.com"])
+CORS(app, origins=["http://localhost:5173", "https://fystart.deeptrain.net", "https://turbowarp.org", "https://www.turbowarp.org", "https://40code.com", "https://www.40code.com"])
 
 api = Api(app)
 openai.api_key = os.environ.get('TOKEN')
