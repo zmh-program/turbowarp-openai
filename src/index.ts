@@ -1,5 +1,6 @@
 import Extension from './plugin'
-import { Scratch } from './vm'
+
+let apikey: string | undefined
 
 new Extension({
   id: 'openai',
@@ -7,37 +8,43 @@ new Extension({
   color1: '#0e0e0e',
   blocks: [
     {
-      opcode: 'ask', /** @ts-ignore */
-      blockType: Scratch.BlockType.REPORTER,
-      text: '询问 ChatGPT [message:string]',
+      opcode: 'ask',
+      blockType: 'reporter',
+      text: 'Ask ChatGPT [message:string]',
       default: { message: '' },
       bind: async ({ message }) => {
+        const content: string = message.trim()
+        if (!content) return 'Please enter the content!'
         try {
-          const resp = await fetch(`https://chatgpt.deeptrain.net/gpt`, {
+          const resp = await fetch('https://chatgpt.deeptrain.net/gpt', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data: message })
+            body: JSON.stringify({ data: content, key: apikey })
           })
-          const data = await resp.json();
-          return data.message;
+          const data = await resp.json()
+          return data.message
         } catch (e) {
-          console.error(e);
-          return "请求过多！请稍后重试！"
+          console.error(e)
+          return 'Too many requests, please try again later!'
         }
       },
-      disableMonitor: true,
+      disableMonitor: true
     },
     {
-      opcode: 'donate', //@ts-ignore
-      blockType: Scratch.BlockType.COMMAND,
-      text: "捐赠",
-      bind: () => window.open("https://afdian.net/@zmh-program"),
+      opcode: 'donate',
+      blockType: 'command',
+      text: 'donate',
+      bind: () => window.open('https://afdian.net/@zmh-program')
     },
     {
-      opcode: 'info', //@ts-ignore
-      blockType: Scratch.BlockType.COMMAND,
-      text: "(使用过程中有非正常言论请忽略)",
-      bind: () => "",
+      opcode: 'set',
+      blockType: 'command',
+      text: 'customize the apikey [apikey:string]',
+      default: { apikey: 'sk-' },
+      bind: ({ apikey: key }) => {
+        apikey = key
+        return 'The openai apikey has been set. Note that customizing the apikey is risky!'
+      }
     }
   ]
 }).register()
